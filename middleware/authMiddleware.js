@@ -4,14 +4,17 @@ dotenv.config()
 
 const authMiddleware = (req, res, next) => {
     const token = req.headers['authorization']
-    if (!token) {
+    const valid = token.split(' ')
+    if (!valid[1]) {
         return res.status(500).json({
             success: false,
             message: 'No token provided'
         })
     }
 
-    jwt.verify(token, process.env.SUPER_SECRET, (err, decoded) => {
+    
+
+    jwt.verify(valid[1], process.env.SUPER_SECRET, (err, decoded) => {
         if(err) {
             return res.status(500).json({
                 success: false,
